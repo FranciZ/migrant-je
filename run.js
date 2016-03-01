@@ -106,7 +106,7 @@ app.get('/:user', function(req, res){
     phridge.spawn()
         .then(function (phantom) {
             // phantom.openPage(url) loads a page with the given url
-            return phantom.openPage("https://twitter.com/JJansaSDS/status/704267911519735808"+twitterUser);
+            return phantom.openPage("https://twitter.com/"+twitterUser);
         })
 
         .then(function (page) {
