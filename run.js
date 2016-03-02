@@ -40,10 +40,14 @@ app.get('/:user/status/:id', function(req, res){
     phridge.spawn()
         .then(function (phantom) {
             // phantom.openPage(url) loads a page with the given url
+
             return phantom.openPage('https://twitter.com/'+twitterUser+'/status/'+twitId);
         })
 
         .then(function (page) {
+
+
+
             // page.run(fn) runs fn inside PhantomJS
             return page.run(function () {
                 // Here we're inside PhantomJS, so we can't reference variables in the scope
@@ -60,10 +64,9 @@ app.get('/:user/status/:id', function(req, res){
 
             $ = cheerio.load(body);
 
+            $('head').append(' <meta http-equiv="content-type" content="text/html; charset=UTF-8">');
             var re = new RegExp(oldWord,'gi');
-            var replaced = $.html().replace(re,newWord);
-
-
+            var replaced = $.html().replace(re,'<span style="font-weight: 500;">'+newWord+'</span>');
 
             res.writeHead(200, {
                 'Content-Length': Buffer.byteLength(body),
@@ -111,8 +114,12 @@ app.get('/:user', function(req, res){
 
         .then(function (page) {
             // page.run(fn) runs fn inside PhantomJS
+
+
+
             return page.run(function () {
                 // Here we're inside PhantomJS, so we can't reference variables in the scope
+
 
                 // 'this' is an instance of PhantomJS' WebPage as returned by require("webpage").create()
                 return this.evaluate(function () {
@@ -125,9 +132,9 @@ app.get('/:user', function(req, res){
             var body = '<!DOCTYPE html><html>'+text+'</html>';
 
             $ = cheerio.load(body);
-
+            $('head').append(' <meta http-equiv="content-type" content="text/html; charset=UTF-8">');
             var re = new RegExp(oldWord,'gi');
-            var replaced = $.html().replace(re,newWord);
+            var replaced = $.html().replace(re,'<span style="font-weight: 500;">'+newWord+'</span>');
 
 
 
