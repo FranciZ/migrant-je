@@ -66,7 +66,7 @@ app.get('/:user/status/:id', function(req, res){
 
             $('head').append(' <meta http-equiv="content-type" content="text/html; charset=UTF-8">');
             var re = new RegExp(oldWord,'gi');
-            var replaced = $.html().replace(re,'<b>'+newWord+'</b>');
+            var replaced = $.html().replace(re,'<span style="font-weight: 500;">'+newWord+'</span>');
 
             res.writeHead(200, {
                 'Content-Length': Buffer.byteLength(body),
